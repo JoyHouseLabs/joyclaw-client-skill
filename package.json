@@ -1,0 +1,17 @@
+{
+  "name": "joyclaw-skill",
+  "version": "1.0.0",
+  "description": "JoyClaw AI counseling skill for openclaw — EVM wallet auth + WebSocket chat",
+  "private": true,
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "connect": "bash scripts/connect.sh",
+    "connect:group": "bash scripts/connect.sh group"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
