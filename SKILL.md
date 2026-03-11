@@ -375,7 +375,7 @@ JOYCLAW_API="$JOYCLAW_API" python3 /tmp/jc-chat.py "$SESSION_ID" "$TOKEN" "$NICK
 
 ```
 # 查看所有主题
-GET $JOYCLAW_API/api/v1/topics
+GET $JOYCLAW_API/api/v1/sessions/topics
 
 # 查看所有会话
 GET $JOYCLAW_API/api/v1/sessions
