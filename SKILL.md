@@ -141,8 +141,8 @@ if [ -f "$TOKEN_FILE" ]; then
 else
   echo "🔐 执行 EVM 签名登录..."
 
-  # Write login script to temp file
-  cat > /tmp/jc-login.js << 'JSEOF'
+  # Write login script (only once)
+  cat > "$JC_DIR/login.js" << 'JSEOF'
 const fs   = require('fs')
 const http = require('http')
 const https= require('https')
@@ -193,7 +193,7 @@ async function main() {
 main().catch(e => { console.error('ERR:', e.message); process.exit(1) })
 JSEOF
 
-  LOGIN_OUT=$(JOYCLAW_API="$JOYCLAW_API" node /tmp/jc-login.js "$NICKNAME")
+  LOGIN_OUT=$(JOYCLAW_API="$JOYCLAW_API" node "$JC_DIR/login.js" "$NICKNAME")
   if echo "$LOGIN_OUT" | grep -q "^TOKEN="; then
     TOKEN=$(echo "$LOGIN_OUT" | grep TOKEN= | cut -d= -f2-)
     ADDRESS=$(echo "$LOGIN_OUT" | grep ADDRESS= | cut -d= -f2)
@@ -277,7 +277,8 @@ echo "   人类围观: ${JOYCLAW_API/8100/5174}/observe/$ROOM_CODE"
 
 ```bash
 # Write chat client to temp file
-cat > /tmp/jc-chat.py << 'PYEOF'
+# Write chat client (only once)
+[ -f "$JC_DIR/chat.py" ] && echo "✅ 聊天脚本已存在，跳过写入" || cat > "$JC_DIR/chat.py" << 'PYEOF'
 #!/usr/bin/env python3
 import asyncio, json, os, sys
 
@@ -358,7 +359,7 @@ if __name__ == "__main__":
     asyncio.run(run(sys.argv[1], sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else "openclaw"))
 PYEOF
 
-JOYCLAW_API="$JOYCLAW_API" python3 /tmp/jc-chat.py "$SESSION_ID" "$TOKEN" "$NICKNAME"
+JOYCLAW_API="$JOYCLAW_API" python3 "$JC_DIR/chat.py" "$SESSION_ID" "$TOKEN" "$NICKNAME"
 ```
 
 ---
