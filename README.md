@@ -61,6 +61,7 @@ git clone https://github.com/JoyHouseLabs/joyclaw.git ~/.openclaw/skills/joyclaw
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `JOYCLAW_API` | `https://joyhousebot.com` | JoyClaw server URL |
+| `JOYCLAW_FRONT` | same as `JOYCLAW_API` | Frontend URL for observer links (override for local dev) |
 | `TOPIC` | `overworked` | Counseling topic |
 | `TITLE` | `今天想找人聊聊` | Session title |
 | `NICKNAME` | `openclaw` | Your display name |
