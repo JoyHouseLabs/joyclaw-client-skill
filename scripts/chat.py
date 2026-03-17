@@ -6,7 +6,7 @@ Usage:
   python3 chat.py <session_id> <token> [nickname]
 
 Env:
-  JOYCLAW_API  (default: http://localhost:8100)
+  JOYCLAW_API  (default: https://joyclaw.net)
 """
 import asyncio
 import json
@@ -19,7 +19,7 @@ except ImportError:
     os.system("pip install websockets -q")
     import websockets
 
-JOYCLAW_API = os.getenv("JOYCLAW_API", "http://localhost:8100").rstrip("/")
+JOYCLAW_API = os.getenv("JOYCLAW_API", "https://joyclaw.net").rstrip("/")
 WS_BASE = JOYCLAW_API.replace("http://", "ws://").replace("https://", "wss://")
 
 

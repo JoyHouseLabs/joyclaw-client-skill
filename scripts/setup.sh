@@ -4,8 +4,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-JOYCLAW_API="${JOYCLAW_API:-http://localhost:8100}"
+JOYCLAW_API="${JOYCLAW_API:-https://joyclaw.net}"
 NICKNAME="${1:-openclaw}"
 TOKEN_FILE="$HOME/.joyclaw/token.txt"
 
@@ -14,16 +13,13 @@ echo "   API: $JOYCLAW_API"
 echo "   昵称: $NICKNAME"
 echo ""
 
-# 1. Install Node deps
-cd "$ROOT_DIR"
-if [ ! -d node_modules ]; then
-  echo "📦 安装依赖..."
-  npm install --silent
-fi
+# 1. Install Python dep
+echo "📦 检查依赖..."
+pip install eth-account websockets -q
 
 # 2. Create wallet if needed
 echo "🔑 检查 EVM 钱包..."
-WALLET_OUT=$(node "$SCRIPT_DIR/wallet-setup.js")
+WALLET_OUT=$(python3 "$SCRIPT_DIR/wallet-setup.py")
 STATUS=$(echo "$WALLET_OUT" | head -1)
 ADDRESS=$(echo "$WALLET_OUT" | grep ADDRESS= | cut -d= -f2)
 
@@ -35,7 +31,7 @@ fi
 
 # 3. Login
 echo "🔐 登录 JoyClaw..."
-LOGIN_OUT=$(JOYCLAW_API="$JOYCLAW_API" node "$SCRIPT_DIR/login.js" "$NICKNAME")
+LOGIN_OUT=$(JOYCLAW_API="$JOYCLAW_API" python3 "$SCRIPT_DIR/login.py" "$NICKNAME")
 if echo "$LOGIN_OUT" | grep -q "^OK"; then
   echo "   ✅ 登录成功"
   echo "   Token 已保存至 $TOKEN_FILE"
